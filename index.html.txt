@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>C’est bientôt le câlin ?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(145deg, #fff0f5, #e0bbff);
+      font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+      animation: pulse 2s infinite;
+    }
+
+    #countdown {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .heart {
+      font-size: 3em;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="message">C’est bientôt le câlin ! 😘</h1>
+  <div id="countdown">⏳</div>
+  <div class="heart">💖</div>
+
+  <script>
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date();
+      target.setHours(18, 30, 0, 0); // 18h30 aujourd’hui
+
+      // Si on a déjà dépassé 18h30, on vise demain
+      if (now > target) {
+        target.setDate(target.getDate() + 1);
+      }
+
+      const diff = target - now;
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").textContent =
+        `${hours}h ${minutes}min ${seconds}s`;
+
+      // Changement de message à l'heure H
+      if (diff <= 0) {
+        document.getElementById("message").textContent = "Câlin time 💛";
+        document.getElementById("countdown").textContent = "";
+      }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
